@@ -13,6 +13,9 @@
             "email": "fedejuret@gmail.com"
         }
     ],
+    "scripts": {
+        "test": "vendor/bin/phpunit tests"
+    },
     "require": {
         "guzzlehttp/guzzle": "^7.0"
     },
