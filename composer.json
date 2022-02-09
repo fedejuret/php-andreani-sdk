@@ -1,0 +1,22 @@
+{
+    "name": "fedejuret/andreani-sdk",
+    "description": "Sdk for Andreani API Rest",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Fedejuret\\Andreani\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Federico Juretich",
+            "email": "fedejuret@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.4"
+    }
+}

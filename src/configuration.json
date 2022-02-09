@@ -1,0 +1,38 @@
+{
+    "resources": {
+        "request_converter": "\\Fedejuret\\Andreani\\Resources\\RequestArguementConverter"
+    },
+    "urls": {
+        "production": "https://apis.andreani.com",
+        "sandbox": "https://apisqa.andreani.com"
+    },
+    "services": {
+        "sandbox": {
+            "login": {
+                "method": "get",
+                "url": "https://apisqa.andreani.com",
+                "path": "/login",
+                "headers": []
+            },
+            "branches": {
+                "method": "get",
+                "url": "https://apisqa.andreani.com",
+                "path": "/v2/sucursales",
+                "headers": []
+            },
+            "quoteShipping": {
+                "method": "get",
+                "url": "https://apisqa.andreani.com",
+                "path": "/v1/tarifas",
+                "headers": []
+            },
+            "order": {
+                "method": "post",
+                "url": "https://apisqa.andreani.com",
+                "path": "/v2/ordenes-de-envio",
+                "headers": []
+            }
+        }
+    }
+
+}
