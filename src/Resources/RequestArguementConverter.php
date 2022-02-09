@@ -24,11 +24,16 @@ class RequestArguementConverter implements ArgumentConverter
     {
 
         $packages = array_map(function ($package) {
+
+            if (!$package instanceof Package) {
+                throw new \Exception('Package must be an instance of Fedejuret\Andreani\Entities\Package');
+            }
+
             return [
-                'kilos' => $package['weight'],
-                'largoCm' => $package['length'],
-                'anchoCm' => $package['width'],
-                'valorDeclarado' => $package['value']
+                'kilos' => $package->weight,
+                'largoCm' => $package->length,
+                'anchoCm' => $package->width,
+                'valorDeclarado' => $package->value
             ];
         }, $service->packages);
 
@@ -45,10 +50,11 @@ class RequestArguementConverter implements ArgumentConverter
     {
 
         $packages = array_map(function ($package) {
+
             if (!$package instanceof Package) {
                 throw new \Exception('Package must be an instance of Fedejuret\Andreani\Entities\Package');
             }
-            
+
             return [
                 'kilos' => $package->weight,
                 // 'largoCm' => $package['length'],
