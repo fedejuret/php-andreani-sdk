@@ -2,7 +2,11 @@
 
 namespace Fedejuret\Andreani\Resources;
 
+use Fedejuret\Andreani\Entities\Origin;
 use Fedejuret\Andreani\Entities\Package;
+use Fedejuret\Andreani\Entities\Receiver;
+use Fedejuret\Andreani\Requests\Order;
+use Fedejuret\Andreani\Requests\QuoteShipping;
 
 class RequestArguementConverter implements ArgumentConverter
 {
@@ -15,13 +19,16 @@ class RequestArguementConverter implements ArgumentConverter
         }
 
         if ($service->getServiceName() == 'order') {
-            dump(json_encode($this->getArgumentChainForOrder($service)));
             return $this->getArgumentChainForOrder($service);
         }
     }
 
-    private function getArgumentChainForQuoteShipping(APIRequest $service)
+    private function getArgumentChainForQuoteShipping(QuoteShipping $service)
     {
+
+        if (count($service->getPackages()) === 0) {
+            throw new \Exception('There are no packages in this request');
+        }
 
         $packages = array_map(function ($package) {
 
@@ -35,7 +42,7 @@ class RequestArguementConverter implements ArgumentConverter
                 'anchoCm' => $package->width,
                 'valorDeclarado' => $package->value
             ];
-        }, $service->packages);
+        }, $service->getPackages());
 
         return [
             'contrato' => $service->contract,
@@ -46,8 +53,12 @@ class RequestArguementConverter implements ArgumentConverter
         ];
     }
 
-    private function getArgumentChainForOrder(APIRequest $service)
+    private function getArgumentChainForOrder(Order $service)
     {
+
+        if (count($service->getPackages()) === 0) {
+            throw new \Exception('There are no packages in this request');
+        }
 
         $packages = array_map(function ($package) {
 
@@ -61,14 +72,16 @@ class RequestArguementConverter implements ArgumentConverter
                 // 'anchoCm' => $package['width'],
                 'volumenCm' => $package->volume
             ];
-        }, $service->packages);
+        }, $service->getPackages());
 
         return [
             'contrato' => $service->contract,
-            'origen' => $service->origin,
-            'destino' => $service->destination,
-            'remitente' => $service->sender,
-            'destinatario' => $service->receiver,
+            'origen' => $service->origin->getParsedOrigin(),
+            'destino' => $service->destination->getParsedDestination(),
+            'remitente' => $service->sender->getParsedSender(),
+            'destinatario' => array_map(function (Receiver $receiver) {
+                return $receiver->getParsedReceiver();
+            }, $service->getReceivers()),
             'bultos' => $packages,
         ];
     }

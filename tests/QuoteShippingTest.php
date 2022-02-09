@@ -25,7 +25,8 @@ class QuoteShippingTest extends TestCase
         $package->height = 20;
         $package->volume = 200;
 
-        $quoteShipping = new QuoteShippingRequest('400006709', [$package], 8000, null, null);
+        $quoteShipping = new QuoteShippingRequest('400006709', 8000, null, null);
+        $quoteShipping->addPackage($package);
 
         $response = $andreani->call($quoteShipping);
 
