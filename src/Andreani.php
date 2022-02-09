@@ -2,8 +2,6 @@
 
 namespace Fedejuret\Andreani;
 
-use Fedejuret\Andreani\Requests\Branches;
-use Fedejuret\Andreani\Requests\QuoteShipping;
 use Fedejuret\Andreani\Resources\Response;
 use Fedejuret\Andreani\Resources\APIRequest;
 use Fedejuret\Andreani\Resources\Connection;

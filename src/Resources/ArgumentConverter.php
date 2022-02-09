@@ -5,5 +5,5 @@ namespace Fedejuret\Andreani\Resources;
 interface ArgumentConverter
 {
 
-    public function getArgumentChain(APIRequest $consulta);
+    public function getArgumentChain(APIRequest $service);
 }
