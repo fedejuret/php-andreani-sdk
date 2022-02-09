@@ -2,6 +2,7 @@
     "name": "fedejuret/andreani-sdk",
     "description": "Sdk for Andreani API Rest",
     "type": "library",
+    "license": "proprietary",
     "autoload": {
         "psr-4": {
             "Fedejuret\\Andreani\\": "src/"
