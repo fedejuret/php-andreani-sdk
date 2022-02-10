@@ -9,7 +9,7 @@ use Fedejuret\Andreani\Entities\Receiver;
 use Fedejuret\Andreani\Entities\Destination;
 use Fedejuret\Andreani\Resources\APIRequest;
 
-class Order implements APIRequest
+class CreateOrder implements APIRequest
 {
     /** @var string */
     public $contract;

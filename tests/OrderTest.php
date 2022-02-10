@@ -1,28 +1,35 @@
 <?php
 
-use Fedejuret\Andreani\Andreani;
-use Fedejuret\Andreani\Entities\Destination;
-use Fedejuret\Andreani\Entities\Origin;
-use Fedejuret\Andreani\Entities\Package;
-use Fedejuret\Andreani\Entities\Phone;
-use Fedejuret\Andreani\Entities\Receiver;
-use Fedejuret\Andreani\Entities\Sender;
-use Fedejuret\Andreani\Requests\Order;
-use Fedejuret\Andreani\Requests\QuoteShipping as QuoteShippingRequest;
-use Fedejuret\Andreani\Resources\Response;
 use PHPUnit\Framework\TestCase;
+use Fedejuret\Andreani\Andreani;
+use Fedejuret\Andreani\Entities\Phone;
+use Fedejuret\Andreani\Entities\Origin;
+use Fedejuret\Andreani\Entities\Sender;
+use Fedejuret\Andreani\Entities\Package;
+use Fedejuret\Andreani\Entities\Receiver;
+use Fedejuret\Andreani\Resources\Response;
+use Fedejuret\Andreani\Entities\Destination;
+use Fedejuret\Andreani\Requests\CreateOrder;
+use Fedejuret\Andreani\Requests\GetOrder;
 
 use function PHPUnit\Framework\assertEquals;
 
 class OrderTest extends TestCase
 {
 
+    private $andreani;
+
+    public function __construct()
+    {
+        $this->andreani = new Andreani('usuario_test', 'DI$iKqMClEtM', 'sandbox');
+        parent::__construct();
+    }
+
     /**
      * @test
      */
-    public function testOrderRequest()
+    public function testCreateOrderRequest()
     {
-        $andreani = new Andreani('usuario_test', 'DI$iKqMClEtM', 'sandbox');
 
         $package = new Package();
         $package->weight = 1;
@@ -51,13 +58,38 @@ class OrderTest extends TestCase
         $origin->streetNumber = '20';
         $origin->country = 'Argentina';
 
-        $order = new Order('400006709',$origin, $destination, $sender);
+        $order = new CreateOrder('400006709', $origin, $destination, $sender);
         $order->addPackage($package);
         $order->addReceiver($receiver);
 
-        $response = $andreani->call($order);
+        $response = $this->andreani->call($order);
 
         $this->assertTrue($response instanceof Response);
-        $this>assertEquals(202, $response->getCode());
+        $this > assertEquals(202, $response->getCode());
+
+        $data = $response->getData();
+        
+        $this->assertNotEmpty($data->bultos);
+        return $data->bultos[0]->numeroDeEnvio;
+    }
+
+    /**
+     * @test
+     * @depends testCreateOrderRequest
+     */
+    public function testGetOrderStatus($orderId)
+    {
+
+        $order = new GetOrder($orderId);
+
+        $response = $this->andreani->call($order);
+
+        $this->assertTrue($response instanceof Response);
+        $this->assertEquals(200, $response->getCode());
+
+        $data = $response->getData();
+
+        $this->assertNotEmpty($data->bultos);
+
     }
 }

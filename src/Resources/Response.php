@@ -19,9 +19,9 @@ class Response
         return $this->code;
     }
 
-    public function getData()
+    public function getData($array = false)
     {
-        return $this->data;
+        return $array ? json_decode($this->data, true) : json_decode($this->data);
     }
 
 }

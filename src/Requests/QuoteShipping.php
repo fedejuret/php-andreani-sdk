@@ -14,7 +14,7 @@ class QuoteShipping implements APIRequest
 
     private $packages = [];
 
-    public function __construct($contract, $postalCodeDestination, $branchOrigin, $client)
+    public function __construct(string $contract, $postalCodeDestination, $branchOrigin, $client)
     {
         $this->contract = $contract;
         $this->postalCodeDestination = $postalCodeDestination;

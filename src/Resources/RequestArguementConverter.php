@@ -2,10 +2,9 @@
 
 namespace Fedejuret\Andreani\Resources;
 
-use Fedejuret\Andreani\Entities\Origin;
 use Fedejuret\Andreani\Entities\Package;
 use Fedejuret\Andreani\Entities\Receiver;
-use Fedejuret\Andreani\Requests\Order;
+use Fedejuret\Andreani\Requests\CreateOrder;
 use Fedejuret\Andreani\Requests\QuoteShipping;
 
 class RequestArguementConverter implements ArgumentConverter
@@ -53,7 +52,7 @@ class RequestArguementConverter implements ArgumentConverter
         ];
     }
 
-    private function getArgumentChainForOrder(Order $service)
+    private function getArgumentChainForOrder(CreateOrder $service)
     {
 
         if (count($service->getPackages()) === 0) {

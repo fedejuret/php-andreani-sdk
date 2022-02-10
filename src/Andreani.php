@@ -22,7 +22,7 @@ class Andreani
     {
         $serviceName = $apiRequest->getServiceName();
         $configuration = $this->configuration->$serviceName;
-        return $this->connection->call($configuration, $this->requestArgumentConverter->getArgumentChain($apiRequest));
+        return $this->connection->call($configuration, $this->requestArgumentConverter->getArgumentChain($apiRequest), $apiRequest);
     }
 
     protected function getConfiguration($environment)
