@@ -5,19 +5,30 @@ namespace Fedejuret\Andreani\Entities;
 class Origin
 {
 
+    /** @var array */
     private $avaibleOriginTypes = ['postal', 'branchoffice'];
 
+    /** @var string */
     public $originType;
 
-    /** POSTAL */
+    /** @var string */
     public $city;
+
+    /** @var string */
     public $region;
+
+    /** @var string */
     public $country;
+
+    /** @var string */
     public $postalCode;
+
+    /** @var string */
     public $street;
+
+    /** @var string */
     public $streetNumber;
 
-    /** Sucursal */
     public $branchId;
 
     public function __construct(string $originType)

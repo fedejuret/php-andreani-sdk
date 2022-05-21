@@ -4,11 +4,16 @@ namespace Fedejuret\Andreani\Entities;
 
 class Phone
 {
-
+    /** @var array */
     private $allowedTypes = ['mobile', 'home', 'work', 'other'];
+
+    /** @var int */
     private $maxPhoneLength = 15;
 
+    /** @var string */
     public $number;
+
+    /** @var string */
     public $type;
 
     /**
@@ -30,11 +35,22 @@ class Phone
         $this->type = $type;
     }
 
+    /**
+     * Get allowed types
+     * 
+     * @return array
+     */
     public function getAllowTypes(): array
     {
         return $this->allowedTypes;
     }
 
+
+    /**
+     * Parse phone type to int
+     * 
+     * @return int
+     */
     public function getParsedPhoneType(): int
     {
         switch ($this->type) {
