@@ -6,6 +6,7 @@ use Fedejuret\Andreani\Entities\Package;
 use Fedejuret\Andreani\Entities\Receiver;
 use Fedejuret\Andreani\Requests\CreateOrder;
 use Fedejuret\Andreani\Requests\QuoteShipping;
+use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
 
 class RequestArguementConverter implements ArgumentConverter
 {
@@ -22,17 +23,24 @@ class RequestArguementConverter implements ArgumentConverter
         }
     }
 
-    private function getArgumentChainForQuoteShipping(QuoteShipping $service)
+    /**
+     * @param QuoteShipping $service
+     * 
+     * @throws \Fedejuret\Andreani\Exceptions\InvalidConfigurationException
+     * 
+     * @return array
+     */
+    private function getArgumentChainForQuoteShipping(QuoteShipping $service): array
     {
 
         if (count($service->getPackages()) === 0) {
-            throw new \Exception('There are no packages in this request');
+            throw new InvalidConfigurationException('There are no packages in this request');
         }
 
         $packages = array_map(function ($package) {
 
             if (!$package instanceof Package) {
-                throw new \Exception("Package must be an instance of " . Package::class);
+                throw new InvalidConfigurationException('Package must be an instance of Fedejuret\Andreani\Entities\Package');
             }
 
             return [
@@ -51,24 +59,27 @@ class RequestArguementConverter implements ArgumentConverter
             'bultos' => $packages,
         ];
 
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-
         return $data;
     }
 
-    private function getArgumentChainForOrder(CreateOrder $service)
+    /**
+     * @param CreateOrder $service
+     * 
+     * @throws \Fedejuret\Andreani\Exceptions\InvalidConfigurationException
+     * 
+     * @return array
+     */
+    private function getArgumentChainForOrder(CreateOrder $service): array
     {
 
         if (count($service->getPackages()) === 0) {
-            throw new \Exception('There are no packages in this request');
+            throw new InvalidConfigurationException('There are no packages in this request');
         }
 
         $packages = array_map(function ($package) {
 
             if (!$package instanceof Package) {
-                throw new \Exception('Package must be an instance of Fedejuret\Andreani\Entities\Package');
+                throw new InvalidConfigurationException('Package must be an instance of Fedejuret\Andreani\Entities\Package');
             }
 
             return [

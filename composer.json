@@ -5,7 +5,8 @@
     "license": "proprietary",
     "autoload": {
         "psr-4": {
-            "Fedejuret\\Andreani\\": "src/"
+            "Fedejuret\\Andreani\\": "src/",
+            "Fedejuret\\Andreani\\Tests\\": "tests/"
         }
     },
     "authors": [

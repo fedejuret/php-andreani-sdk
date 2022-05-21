@@ -1,14 +1,14 @@
 <?php
 
+namespace Fedejuret\Andreani\Tests;
+
 use Fedejuret\Andreani\Andreani;
 use Fedejuret\Andreani\Entities\Package;
-use Fedejuret\Andreani\Requests\QuoteShipping as QuoteShippingRequest;
 use Fedejuret\Andreani\Resources\Response;
-use PHPUnit\Framework\TestCase;
+use Fedejuret\Andreani\Tests\AndreaniTests;
+use Fedejuret\Andreani\Requests\QuoteShipping as QuoteShippingRequest;
 
-use function PHPUnit\Framework\assertEquals;
-
-class QuoteShippingTest extends TestCase
+class ShippingTest extends AndreaniTests
 {
 
     /**
