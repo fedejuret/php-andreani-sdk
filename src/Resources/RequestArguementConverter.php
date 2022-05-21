@@ -7,6 +7,7 @@ use Fedejuret\Andreani\Entities\Receiver;
 use Fedejuret\Andreani\Requests\CreateOrder;
 use Fedejuret\Andreani\Requests\QuoteShipping;
 use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
+use Fedejuret\Andreani\Requests\GetShippings;
 
 class RequestArguementConverter implements ArgumentConverter
 {
@@ -20,6 +21,10 @@ class RequestArguementConverter implements ArgumentConverter
 
         if ($service->getServiceName() == 'order') {
             return $this->getArgumentChainForOrder($service);
+        }
+
+        if ($service->getServiceName() == 'getShippings') {
+            return $this->getArgumentChainForGetShippings($service);
         }
     }
 
@@ -99,6 +104,21 @@ class RequestArguementConverter implements ArgumentConverter
                 return $receiver->getParsedReceiver();
             }, $service->getReceivers()),
             'bultos' => $packages,
+        ];
+
+        return $data;
+    }
+
+    /**
+     * @param GetShippings $service
+     * 
+     * @return array
+     */
+    private function getArgumentChainForGetShippings(GetShippings $service): array
+    {
+        $data = [
+            'codigoClient' => $service->clientCode,
+            'contrato' => $service->contract
         ];
 
         return $data;

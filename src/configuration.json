@@ -45,6 +45,12 @@
         "path": "/v2/envios/:andreaniNumber",
         "variables": ["andreaniNumber"],
         "headers": []
+      },
+      "getShippings": {
+        "method": "get",
+        "url": "https://apisqa.andreani.com",
+        "path": "/v2/envios",
+        "headers": []
       }
     }
   }

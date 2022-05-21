@@ -4,6 +4,7 @@ namespace Fedejuret\Andreani\Tests;
 
 use Fedejuret\Andreani\Andreani;
 use Fedejuret\Andreani\Entities\Package;
+use Fedejuret\Andreani\Requests\GetShippings;
 use Fedejuret\Andreani\Resources\Response;
 use Fedejuret\Andreani\Tests\AndreaniTests;
 use Fedejuret\Andreani\Requests\QuoteShipping as QuoteShippingRequest;
@@ -32,5 +33,23 @@ class ShippingTest extends AndreaniTests
 
         $this->assertTrue($response instanceof Response);
         $this->assertEquals(200, $response->getCode());
+    }
+
+    /**
+     * @test
+     */
+    public function testGetShippings()
+    {
+        $this->markTestSkipped('This test is not implemented yet');
+
+        $getShippings = new GetShippings('400006709', 'CL0003750');
+
+        $response = $this->andreani->call($getShippings);
+
+        $this->assertTrue($response instanceof Response);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertTrue(is_array($response->getData()));
+
+
     }
 }
