@@ -15,7 +15,21 @@ class HttpRequest
         $this->options = $options;
     }
 
-    public function post(string $path, array $data, array $headers = [])
+    public function __destruct()
+    {
+        $this->close();
+    }
+
+    /**
+     * Send POST request
+     * 
+     * @param string $path Path to request
+     * @param array $data Data to send
+     * @param array $headers Headers to send
+     * 
+     * @return \Fedejuret\Andreani\Resources\Response
+     */
+    public function post(string $path, array $data, array $headers = []): \Fedejuret\Andreani\Resources\Response
     {
 
         if (!empty($headers)) {
@@ -40,7 +54,16 @@ class HttpRequest
         return new Response($code, $response);
     }
 
-    public function get(string $path, ?array $query = [], array $headers = [])
+    /**
+     * Send GET request
+     * 
+     * @param string $path Path to request
+     * @param ?array $query Query to send
+     * @param array $headers Headers to send
+     * 
+     * @return \Fedejuret\Andreani\Resources\Response
+     */
+    public function get(string $path, ?array $query = [], array $headers = []): \Fedejuret\Andreani\Resources\Response
     {
 
         if (!empty($headers)) {
@@ -69,12 +92,12 @@ class HttpRequest
         return new Response($code, $response);
     }
 
-    private function close()
-    {
-        curl_close($this->curl);
-    }
-
-    public function getHeaders()
+    /**
+     * Get headers to send
+     * 
+     * @return array
+     */
+    public function getHeaders(): array
     {
         $headers = [];
 
@@ -87,8 +110,13 @@ class HttpRequest
         return array_values($headers);
     }
 
-    public function __destruct()
+    /**
+     * Close curl connection
+     * 
+     * @return void
+     */
+    private function close(): void
     {
-        $this->close();
+        curl_close($this->curl);
     }
 }

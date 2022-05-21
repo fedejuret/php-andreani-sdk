@@ -81,6 +81,10 @@ class RequestArguementConverter implements ArgumentConverter
             throw new InvalidConfigurationException('There are no packages in this request');
         }
 
+        if (count($service->getReceivers()) === 0) {
+            throw new InvalidConfigurationException('There are no receivers in this request');
+        }
+
         $packages = array_map(function ($package) {
 
             if (!$package instanceof Package) {

@@ -14,7 +14,7 @@ class Response
         $this->data = $data;
     }
 
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }

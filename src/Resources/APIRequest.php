@@ -4,5 +4,5 @@ namespace Fedejuret\Andreani\Resources;
 
 interface APIRequest
 {
-    public function getServiceName();
+    public function getServiceName(): string;
 }

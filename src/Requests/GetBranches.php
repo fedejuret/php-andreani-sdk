@@ -7,7 +7,7 @@ use Fedejuret\Andreani\Resources\APIRequest;
 class GetBranches implements APIRequest
 {
 
-    public function getServiceName()
+    public function getServiceName(): string
     {
         return 'branches';
     }

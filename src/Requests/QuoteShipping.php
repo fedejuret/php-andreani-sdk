@@ -22,17 +22,27 @@ class QuoteShipping implements APIRequest
         $this->client = $client;
     }
 
-    public function addPackage(Package $package)
+    /**
+     * @param Package $package
+     * 
+     * @return void
+     */
+    public function addPackage(Package $package): void
     {
         $this->packages[] = $package;
     }
 
-    public function getPackages()
+    /**
+     * Get packages of the order
+     * 
+     * @return array
+     */
+    public function getPackages(): array
     {
         return $this->packages;
     }
 
-    public function getServiceName()
+    public function getServiceName(): string
     {
         return 'quoteShipping';
     }

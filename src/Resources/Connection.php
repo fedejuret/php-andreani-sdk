@@ -7,8 +7,10 @@ use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
 
 class Connection
 {
-
+    /** @var stdClass */
     protected $configuration;
+
+    /** @var string */
     protected static $token;
 
     public function __invoke()
@@ -18,6 +20,15 @@ class Connection
         }
     }
 
+    /**
+     * Make a request to the API
+     * 
+     * @param stdClass $configuration Configuration of the request
+     * @param ?array $arguments Arguments of the request
+     * @param APIRequest $request Request to be made
+     * 
+     * @return Response
+     */
     public function call($configuration, $arguments, $apiRequest): Response
     {
         $this->configuration = $configuration;
@@ -36,7 +47,17 @@ class Connection
         return $response;
     }
 
-    protected function getClient($url, $headers = []): HttpRequest
+    /**
+     * Get prepared client to make requests
+     * 
+     * It returns a logged in client
+     * 
+     * @param string $url URL of the API
+     * @param array $headers Headers of the request
+     * 
+     * @return HttpRequest
+     */
+    protected function getClient(string $url, array $headers = []): HttpRequest
     {
 
         if (!in_array('Authorization', $headers)) {
@@ -53,6 +74,14 @@ class Connection
         return $client;
     }
 
+    /**
+     * Login to the API and return the token
+     * 
+     * @param string $url URL of the API
+     * @param string $authHeader Base64 encoded string of the username and password
+     * 
+     * @return string Bearer Token
+     */
     final public static function login(string $url, string $authHeader): string
     {
 
@@ -71,7 +100,14 @@ class Connection
         return $response->getData()->token;
     }
 
-    final public static function setToken(string $token)
+    /**
+     * Set token to be used in the future
+     * 
+     * @param string $token Bearer Token
+     * 
+     * @return void
+     */
+    final public static function setToken(string $token): void
     {
         self::$token = $token;
     }

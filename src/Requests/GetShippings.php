@@ -16,7 +16,7 @@ class GetShippings implements APIRequest
         $this->clientCode = $clientCode;
     }
 
-    public function getServiceName()
+    public function getServiceName(): string
     {
         return 'getShippings';
     }

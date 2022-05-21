@@ -37,27 +37,47 @@ class CreateOrder implements APIRequest
         $this->sender = $sender;
     }
 
-    public function addPackage(Package $package)
+    /**
+     * Add packages to the order
+     * 
+     * @param Package $package
+     */
+    public function addPackage(Package $package): void
     {
         $this->packages[] = $package;
     }
 
-    public function getPackages()
+    /**
+     * Get packages of the order
+     * 
+     * @return array
+     */
+    public function getPackages(): array
     {
         return $this->packages;
     }
 
-    public function addReceiver(Receiver $receiver)
+    /**
+     * Add receiver to the order
+     * 
+     * @param Receiver $receiver
+     */
+    public function addReceiver(Receiver $receiver): void
     {
         $this->receiver[] = $receiver;
     }
 
-    public function getReceivers()
+    /**
+     * Get receivers of the order
+     * 
+     * @return array
+     */
+    public function getReceivers(): array
     {
         return $this->receiver;
     }
 
-    public function getServiceName()
+    public function getServiceName(): string
     {
         return 'order';
     }
