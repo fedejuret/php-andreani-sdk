@@ -2,9 +2,8 @@
 
 namespace Fedejuret\Andreani\Resources;
 
-use Exception;
 use Fedejuret\Andreani\Resources\Response;
-use GuzzleHttp\Client;
+use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
 
 class Connection
 {
@@ -14,9 +13,8 @@ class Connection
 
     public function __invoke()
     {
-
         if (empty(self::$token)) {
-            throw new Exception('Must login before making a request');
+            throw new InvalidConfigurationException('Must login before making a request');
         }
     }
 
@@ -33,20 +31,12 @@ class Connection
             $path = $this->replaceVariable($path, $apiRequest);
         }
 
-        if ($method === 'get') {
-            $response = $client->$method($path, [
-                'query' => $arguments,
-            ]);
-        } else if ($method === 'post') {
-            $response = $client->$method($path, [
-                'json' => $arguments,
-            ]);
-        }
+        $response = $client->$method($path, $arguments);
 
-        return $this->getResponse($response->getStatusCode(), $response->getBody()->getContents());
+        return $response;
     }
 
-    protected function getClient($url, $headers = []): Client
+    protected function getClient($url, $headers = []): HttpRequest
     {
 
         if (!in_array('Authorization', $headers)) {
@@ -56,8 +46,7 @@ class Connection
             $headers['x-authorization-token'] = self::$token;
         }
 
-        $client = new Client([
-            'base_uri' => $url,
+        $client = new HttpRequest($url, [
             'headers' => $headers
         ]);
 
@@ -67,27 +56,24 @@ class Connection
     final public static function login(string $url, string $authHeader): string
     {
 
-        $client = new Client([
-            'base_uri' => $url
-        ]);
+        if (isset(self::$token)) {
+            return self::$token;
+        }
 
-        $response = $client->get('/login', [
+        $client = new HttpRequest($url, [
             'headers' => [
                 'Authorization' => $authHeader
-            ]
+            ],
         ]);
 
-        return json_decode($response->getBody()->getContents())->token;
+        $response = $client->get('/login');
+
+        return $response->getData()->token;
     }
 
     final public static function setToken(string $token)
     {
         self::$token = $token;
-    }
-
-    protected function getResponse($code, $data): Response
-    {
-        return new Response($code, $data);
     }
 
     /**
