@@ -91,6 +91,8 @@ class OrderTest extends AndreaniTests
     public function testGetShippingByAndreaniNumber(string $andreniNumber)
     {
 
+        $this->markTestSkipped('We need response from Andreani Team to test this method');
+
         $shipping = new GetShipping($andreniNumber);
 
         $response = $this->andreani->call($shipping);
