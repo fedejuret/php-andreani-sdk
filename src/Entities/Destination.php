@@ -2,6 +2,8 @@
 
 namespace Fedejuret\Andreani\Entities;
 
+use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
+
 class Destination
 {
 
@@ -34,12 +36,12 @@ class Destination
     /**
      * @param string $destinationType It can be: postal or branchoffice
      * 
-     * @throws \Exception
+     * @throws \Fedejuret\Andreani\Exceptions\InvalidConfigurationException
      */
     public function __construct(string $destinationType)
     {
         if (!in_array($destinationType, $this->avaibleDestinationTypes)) {
-            throw new \Exception('Destination type not valid. Available types are: ' . implode(', ', $this->avaibleDestinationTypes));
+            throw new InvalidConfigurationException('Destination type not valid. Available types are: ' . implode(', ', $this->avaibleDestinationTypes));
         }
 
         $this->destinationType = $destinationType;

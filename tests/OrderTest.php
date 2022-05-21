@@ -61,8 +61,6 @@ class OrderTest extends AndreaniTests
 
         $data = $response->getData();
 
-        dump($data);
-
         $this->assertNotEmpty($data->bultos);
         return $data->bultos[0]->numeroDeEnvio;
     }

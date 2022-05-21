@@ -2,6 +2,8 @@
 
 namespace Fedejuret\Andreani\Entities;
 
+use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
+
 class Phone
 {
     /** @var array */
@@ -19,16 +21,18 @@ class Phone
     /**
      * @param string $number
      * @param string $type It can be: mobile, home, work or other
+     * 
+     * @throws \Fedejuret\Andreani\Exceptions\InvalidConfigurationException
      */
     public function __construct($number, string $type)
     {
 
         if (!in_array($type, $this->allowedTypes)) {
-            throw new \Exception('Invalid phone type. Available types are: ' . implode(', ', $this->allowedTypes));
+            throw new InvalidConfigurationException('Invalid phone type. Available types are: ' . implode(', ', $this->allowedTypes));
         }
 
         if (strlen($number) > $this->maxPhoneLength) {
-            throw new \Exception('Phone number is too long. Max length is ' . $this->maxPhoneLength);
+            throw new InvalidConfigurationException('Phone number is too long. Max length is ' . $this->maxPhoneLength);
         }
 
         $this->number = $number;

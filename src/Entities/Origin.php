@@ -2,6 +2,8 @@
 
 namespace Fedejuret\Andreani\Entities;
 
+use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
+
 class Origin
 {
 
@@ -31,10 +33,15 @@ class Origin
 
     public $branchId;
 
+    /**
+     * @param string $originType It can be: postal or branchoffice
+     * 
+     * @throws \Fedejuret\Andreani\Exceptions\InvalidConfigurationException
+     */
     public function __construct(string $originType)
     {
         if (!in_array($originType, $this->avaibleOriginTypes)) {
-            throw new \Exception('Destination type not valid. Available types are: ' . implode(', ', $this->avaibleoriginTypes));
+            throw new InvalidConfigurationException('Destination type not valid. Available types are: ' . implode(', ', $this->avaibleoriginTypes));
         }
 
         $this->originType = $originType;
