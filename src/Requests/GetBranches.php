@@ -4,7 +4,7 @@ namespace Fedejuret\Andreani\Requests;
 
 use Fedejuret\Andreani\Resources\APIRequest;
 
-class Branches implements APIRequest
+class GetBranches implements APIRequest
 {
 
     public function getServiceName()

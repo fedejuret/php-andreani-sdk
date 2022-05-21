@@ -51,10 +51,6 @@ class RequestArguementConverter implements ArgumentConverter
             'bultos' => $packages,
         ];
 
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-
         return $data;
     }
 

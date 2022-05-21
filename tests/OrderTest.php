@@ -1,7 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Fedejuret\Andreani\Andreani;
+namespace Fedejuret\Andreani\Tests;
+
 use Fedejuret\Andreani\Entities\Phone;
 use Fedejuret\Andreani\Entities\Origin;
 use Fedejuret\Andreani\Entities\Sender;
@@ -11,24 +11,16 @@ use Fedejuret\Andreani\Resources\Response;
 use Fedejuret\Andreani\Entities\Destination;
 use Fedejuret\Andreani\Requests\CreateOrder;
 use Fedejuret\Andreani\Requests\GetOrder;
+use Fedejuret\Andreani\Requests\GetShipping;
+use Fedejuret\Andreani\Tests\AndreaniTests;
 
-use function PHPUnit\Framework\assertEquals;
-
-class OrderTest extends TestCase
+class OrderTest extends AndreaniTests
 {
-
-    private $andreani;
-
-    public function __construct()
-    {
-        $this->andreani = new Andreani('usuario_test', 'DI$iKqMClEtM', 'sandbox');
-        parent::__construct();
-    }
 
     /**
      * @test
      */
-    public function testCreateOrderRequest()
+    public function testCreateOrderRequest(): string
     {
 
         $package = new Package();
@@ -65,10 +57,12 @@ class OrderTest extends TestCase
         $response = $this->andreani->call($order);
 
         $this->assertTrue($response instanceof Response);
-        $this > assertEquals(202, $response->getCode());
+        $this->assertEquals(202, $response->getCode());
 
         $data = $response->getData();
-        
+
+        dump($data);
+
         $this->assertNotEmpty($data->bultos);
         return $data->bultos[0]->numeroDeEnvio;
     }
@@ -77,7 +71,7 @@ class OrderTest extends TestCase
      * @test
      * @depends testCreateOrderRequest
      */
-    public function testGetOrderStatus($orderId)
+    public function testGetOrderStatus(string $orderId)
     {
 
         $order = new GetOrder($orderId);
@@ -86,6 +80,24 @@ class OrderTest extends TestCase
 
         $this->assertTrue($response instanceof Response);
         $this->assertEquals(200, $response->getCode());
+
+        $data = $response->getData();
+
+        $this->assertNotEmpty($data->bultos);
+    }
+
+    /**
+     * @test
+     * @depends testCreateOrderRequest
+     */
+    public function testGetShippingByAndreaniNumber(string $andreniNumber)
+    {
+
+        $shipping = new GetShipping($andreniNumber);
+
+        $response = $this->andreani->call($shipping);
+
+        $this->assertTrue($response instanceof Response);
 
         $data = $response->getData();
 
