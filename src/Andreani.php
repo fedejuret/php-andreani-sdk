@@ -20,8 +20,10 @@ class Andreani
 
     public function call(APIRequest $apiRequest): Response
     {
+
         $serviceName = $apiRequest->getServiceName();
         $configuration = $this->configuration->$serviceName;
+
         return $this->connection->call($configuration, $this->requestArgumentConverter->getArgumentChain($apiRequest), $apiRequest);
     }
 
@@ -31,12 +33,14 @@ class Andreani
         $configuration = json_decode(file_get_contents($path));
         $requestConverter = $configuration->resources->request_converter;
         $this->requestArgumentConverter = new $requestConverter();
+
         return $configuration->services->$environment;
     }
 
     protected function getConnection($user, $password)
     {
         $authHeaders = 'Basic ' . base64_encode($user . ':' . $password);
+        
         return new Connection($authHeaders);
     }
 }

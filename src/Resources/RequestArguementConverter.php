@@ -32,7 +32,7 @@ class RequestArguementConverter implements ArgumentConverter
         $packages = array_map(function ($package) {
 
             if (!$package instanceof Package) {
-                throw new \Exception('Package must be an instance of Fedejuret\Andreani\Entities\Package');
+                throw new \Exception("Package must be an instance of " . Package::class);
             }
 
             return [
@@ -43,13 +43,19 @@ class RequestArguementConverter implements ArgumentConverter
             ];
         }, $service->getPackages());
 
-        return [
+        $data = [
             'contrato' => $service->contract,
             'cliente' => $service->client,
             'sucursalOrigen' => $service->branchOrigin,
             'cpDestino' => $service->postalCodeDestination,
             'bultos' => $packages,
         ];
+
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+
+        return $data;
     }
 
     private function getArgumentChainForOrder(CreateOrder $service)
@@ -73,7 +79,7 @@ class RequestArguementConverter implements ArgumentConverter
             ];
         }, $service->getPackages());
 
-        return [
+        $data = [
             'contrato' => $service->contract,
             'origen' => $service->origin->getParsedOrigin(),
             'destino' => $service->destination->getParsedDestination(),
@@ -83,5 +89,7 @@ class RequestArguementConverter implements ArgumentConverter
             }, $service->getReceivers()),
             'bultos' => $packages,
         ];
+
+        return $data;
     }
 }

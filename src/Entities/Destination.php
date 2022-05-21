@@ -48,7 +48,7 @@ class Destination
         if ($this->destinationType == 'postal') {
             return [
                 'postal' => [
-                    'ciudad' => $this->city,
+                    'localidad' => $this->city,
                     'region' => $this->region,
                     'pais' => $this->country,
                     'codigoPostal' => $this->postalCode,
