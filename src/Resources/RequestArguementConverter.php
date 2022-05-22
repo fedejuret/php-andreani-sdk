@@ -77,12 +77,12 @@ class RequestArguementConverter implements ArgumentConverter
     private function getArgumentChainForOrder(CreateOrder $service): array
     {
 
-        if (count($service->getPackages()) === 0) {
-            throw new InvalidConfigurationException('There are no packages in this request');
+        if (empty($service->getPackages())) {
+            throw new InvalidConfigurationException('There are no configured packages for this request');
         }
 
-        if (count($service->getReceivers()) === 0) {
-            throw new InvalidConfigurationException('There are no receivers in this request');
+        if (empty($service->getReceivers())) {
+            throw new InvalidConfigurationException('There are no configured receivers for this request.');
         }
 
         $packages = array_map(function ($package) {

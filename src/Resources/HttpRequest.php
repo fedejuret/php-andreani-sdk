@@ -2,7 +2,7 @@
 
 namespace Fedejuret\Andreani\Resources;
 
-class HttpRequest
+final class HttpRequest
 {
 
     private $curl;

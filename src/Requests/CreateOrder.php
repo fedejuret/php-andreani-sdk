@@ -52,7 +52,7 @@ class CreateOrder implements APIRequest
      * 
      * @return array
      */
-    public function getPackages(): array
+    public function getPackages(): ?array
     {
         return $this->packages;
     }
@@ -72,7 +72,7 @@ class CreateOrder implements APIRequest
      * 
      * @return array
      */
-    public function getReceivers(): array
+    public function getReceivers(): ?array
     {
         return $this->receiver;
     }

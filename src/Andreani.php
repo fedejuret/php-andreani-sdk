@@ -7,7 +7,8 @@ use Fedejuret\Andreani\Resources\Response;
 use Fedejuret\Andreani\Resources\APIRequest;
 use Fedejuret\Andreani\Resources\Connection;
 
-abstract class Enviroment {
+abstract class Enviroment
+{
     const PRODUCTION = 'production';
     const SANDBOX = 'sandbox';
 }
@@ -29,7 +30,7 @@ class Andreani
     private $enviroment;
 
     public function __construct($user, $password, $enviroment = Enviroment::SANDBOX)
-    {   
+    {
         $this->enviroment = $enviroment;
         $this->configuration = $this->getConfiguration($enviroment);
         $this->connection = $this->getConnection($user, $password);
@@ -80,12 +81,11 @@ class Andreani
      */
     protected function getConnection(string $user, string $password): Connection
     {
-        $url = $this->enviroment === Enviroment::PRODUCTION 
-            ? $this->entireConfiguration->urls->production
-            : $this->entireConfiguration->urls->sandbox;
+
+        $url = $this->entireConfiguration->urls->{$this->enviroment};
 
         $authHeaders = 'Basic ' . base64_encode($user . ':' . $password);
-        
+
         $connection = new Connection();
 
         $bearerToken = $connection::login($url, $authHeaders);
@@ -94,4 +94,3 @@ class Andreani
         return $connection;
     }
 }
-
