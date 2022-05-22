@@ -14,6 +14,11 @@ class GetShipping implements APIRequest
         $this->andreaniNumber = $andreaniNumber;
     }
 
+    public function getClassArgumentChain(): ?array
+    {
+        return null;
+    }
+
     public function getServiceName(): string
     {
         return 'getShipping';

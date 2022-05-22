@@ -16,6 +16,16 @@ class GetShippings implements APIRequest
         $this->clientCode = $clientCode;
     }
 
+    public function getClassArgumentChain(): ?array
+    {
+        $data = [
+            'codigoClient' => $this->clientCode,
+            'contrato' => $this->contract
+        ];
+
+        return $data;
+    }
+
     public function getServiceName(): string
     {
         return 'getShippings';

@@ -14,6 +14,11 @@ class GetOrder implements APIRequest
         $this->orderId = $orderId;
     }
 
+    public function getClassArgumentChain(): ?array
+    {
+        return null;
+    }
+
     public function getServiceName(): string
     {
         return 'getOrder';
