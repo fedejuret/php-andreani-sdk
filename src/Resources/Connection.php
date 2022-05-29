@@ -2,6 +2,7 @@
 
 namespace Fedejuret\Andreani\Resources;
 
+use Fedejuret\Andreani\Andreani;
 use Fedejuret\Andreani\Resources\Response;
 use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
 
@@ -44,6 +45,11 @@ class Connection
 
         $response = $client->$method($path, $arguments);
 
+        if (Andreani::$debug) {
+            Console::log('Request: ' . $method . ' ' . $path, 'yellow');
+            Console::log('Response: ' . $response->getCode(), 'white');
+        }
+
         return $response;
     }
 
@@ -82,11 +88,15 @@ class Connection
      * 
      * @return string Bearer Token
      */
-    final public static function login(string $url, string $authHeader): string
+    public static function login(string $url, string $authHeader): string
     {
 
         if (isset(self::$token)) {
             return self::$token;
+        }
+
+        if (Andreani::$debug) {
+            Console::log('Login to ' . $url, 'light_green');
         }
 
         $client = new HttpRequest($url, [
@@ -97,7 +107,17 @@ class Connection
 
         $response = $client->get('/login');
 
-        return $response->getData()->token;
+        $token = $response->getData()->token;
+
+        if (empty($token)) {
+            throw new InvalidConfigurationException('Invalid credentials');
+        }
+
+        if (Andreani::$debug) {
+            Console::log('Token: ' . $token, 'white');
+        }
+
+        return $token;
     }
 
     /**

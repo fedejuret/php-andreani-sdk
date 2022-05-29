@@ -2,8 +2,6 @@
 
 namespace Fedejuret\Andreani\Resources;
 
-use ReflectionClass;
-
 final class RequestArguementConverter implements ArgumentConverter
 {
 

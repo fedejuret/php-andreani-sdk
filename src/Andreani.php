@@ -29,11 +29,14 @@ class Andreani
     private $requestArgumentConverter;
     private $enviroment;
 
-    public function __construct($user, $password, $enviroment = Enviroment::SANDBOX)
+    public static $debug = false;
+
+    public function __construct($user, $password, $enviroment = Enviroment::SANDBOX, $debug = false)
     {
         $this->enviroment = $enviroment;
         $this->configuration = $this->getConfiguration($enviroment);
         $this->connection = $this->getConnection($user, $password);
+        self::$debug = $debug;
     }
 
     /**

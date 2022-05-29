@@ -17,7 +17,6 @@ class ShippingTest extends AndreaniTests
      */
     public function testQuoteShipping()
     {
-        $andreani = new Andreani('usuario_test', 'DI$iKqMClEtM', 'sandbox');
 
         $package = new Package();
         $package->weight = 1;
@@ -29,7 +28,7 @@ class ShippingTest extends AndreaniTests
         $quoteShipping = new QuoteShippingRequest('400006709', 8000, null, 'CL0003750');
         $quoteShipping->addPackage($package);
 
-        $response = $andreani->call($quoteShipping);
+        $response = $this->andreani->call($quoteShipping);
 
         $this->assertTrue($response instanceof Response);
         $this->assertEquals(200, $response->getCode());
