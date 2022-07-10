@@ -27,9 +27,9 @@ final class HttpRequest
      * @param array $data Data to send
      * @param array $headers Headers to send
      * 
-     * @return \Fedejuret\Andreani\Resources\Response
+     * @return Response
      */
-    public function post(string $path, array $data, array $headers = []): \Fedejuret\Andreani\Resources\Response
+    public function post(string $path, array $data, array $headers = []): Response
     {
 
         if (!empty($headers)) {
@@ -40,18 +40,8 @@ final class HttpRequest
 
         curl_setopt($this->curl, CURLOPT_POST, true);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, false);
 
-        if (isset($this->options['headers'])) {
-            curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->getHeaders());
-        }
-
-        $response = curl_exec($this->curl);
-        $code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
-
-        return new Response($code, $response);
+        return $this->makeRequest();
     }
 
     /**
@@ -61,9 +51,9 @@ final class HttpRequest
      * @param ?array $query Query to send
      * @param array $headers Headers to send
      * 
-     * @return \Fedejuret\Andreani\Resources\Response
+     * @return Response
      */
-    public function get(string $path, ?array $query = [], array $headers = []): \Fedejuret\Andreani\Resources\Response
+    public function get(string $path, ?array $query = [], array $headers = []): Response
     {
 
         if (!empty($headers)) {
@@ -78,18 +68,7 @@ final class HttpRequest
 
         $this->curl = curl_init($url);
 
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, false);
-
-        if (isset($this->options['headers'])) {
-            curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->getHeaders());
-        }
-
-        $response = curl_exec($this->curl);
-        $code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
-
-        return new Response($code, $response);
+        return $this->makeRequest();
     }
 
     /**
@@ -118,5 +97,24 @@ final class HttpRequest
     private function close(): void
     {
         curl_close($this->curl);
+    }
+
+    /**
+     * @return Response
+     */
+    private function makeRequest(): Response
+    {
+        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, false);
+
+        if (isset($this->options['headers'])) {
+            curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->getHeaders());
+        }
+
+        $response = curl_exec($this->curl);
+        $code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
+
+        return new Response($code, $response);
     }
 }

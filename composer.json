@@ -1,25 +1,29 @@
 {
-    "name": "fedejuret/andreani-sdk",
-    "description": "Sdk for Andreani API Rest",
-    "type": "library",
-    "license": "proprietary",
-    "autoload": {
-        "psr-4": {
-            "Fedejuret\\Andreani\\": "src/",
-            "Fedejuret\\Andreani\\Tests\\": "tests/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Federico Juretich",
-            "email": "fedejuret@gmail.com"
-        }
-    ],
-    "scripts": {
-        "test": "vendor/bin/phpunit tests"
-    },
-    "require-dev": {
-        "symfony/var-dumper": "^5.4",
-        "phpunit/phpunit": "^9.5"
+  "name": "fedejuret/andreani-sdk",
+  "description": "Sdk for Andreani API Rest",
+  "type": "library",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "Fedejuret\\Andreani\\": "src/",
+      "Fedejuret\\Andreani\\Tests\\": "tests/"
     }
+  },
+  "authors": [
+    {
+      "name": "Federico Juretich",
+      "email": "fedejuret@gmail.com"
+    }
+  ],
+  "scripts": {
+    "test": "vendor/bin/phpunit tests"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.4",
+    "phpunit/phpunit": "^9.5"
+  },
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*"
+  }
 }

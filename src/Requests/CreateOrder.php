@@ -79,11 +79,8 @@ class CreateOrder implements APIRequest
     }
 
     /**
-     * @param CreateOrder $service
-     * 
-     * @throws \Fedejuret\Andreani\Exceptions\InvalidConfigurationException
-     * 
      * @return array
+     * @throws InvalidConfigurationException
      */
     public function getClassArgumentChain(): array
     {
@@ -110,7 +107,7 @@ class CreateOrder implements APIRequest
             ];
         }, $this->packages);
 
-        $data = [
+        return [
             'contrato' => $this->contract,
             'origen' => $this->origin->getParsedOrigin(),
             'destino' => $this->destination->getParsedDestination(),
@@ -120,8 +117,6 @@ class CreateOrder implements APIRequest
             }, $this->getReceivers()),
             'bultos' => $packages,
         ];
-
-        return $data;
     }
 
     public function getServiceName(): string

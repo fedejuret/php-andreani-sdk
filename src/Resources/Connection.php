@@ -2,8 +2,9 @@
 
 namespace Fedejuret\Andreani\Resources;
 
-use Fedejuret\Andreani\Resources\Response;
+use Fedejuret\Andreani\Andreani;
 use Fedejuret\Andreani\Exceptions\InvalidConfigurationException;
+use stdClass;
 
 class Connection
 {
@@ -13,6 +14,9 @@ class Connection
     /** @var string */
     protected static $token;
 
+    /**
+     * @throws InvalidConfigurationException
+     */
     public function __invoke()
     {
         if (empty(self::$token)) {
@@ -22,14 +26,13 @@ class Connection
 
     /**
      * Make a request to the API
-     * 
+     *
      * @param stdClass $configuration Configuration of the request
      * @param ?array $arguments Arguments of the request
-     * @param APIRequest $request Request to be made
-     * 
+     * @param $apiRequest
      * @return Response
      */
-    public function call($configuration, $arguments, $apiRequest): Response
+    public function call(stdClass $configuration, ?array $arguments, $apiRequest): Response
     {
         $this->configuration = $configuration;
 
@@ -43,6 +46,11 @@ class Connection
         }
 
         $response = $client->$method($path, $arguments);
+
+        if (Andreani::$debug) {
+            Console::log('Request: ' . $method . ' ' . $path, 'yellow');
+            Console::log('Response: ' . $response->getCode(), 'white');
+        }
 
         return $response;
     }
@@ -67,26 +75,29 @@ class Connection
             $headers['x-authorization-token'] = self::$token;
         }
 
-        $client = new HttpRequest($url, [
+        return new HttpRequest($url, [
             'headers' => $headers
         ]);
-
-        return $client;
     }
 
     /**
      * Login to the API and return the token
-     * 
+     *
      * @param string $url URL of the API
      * @param string $authHeader Base64 encoded string of the username and password
-     * 
+     *
      * @return string Bearer Token
+     * @throws InvalidConfigurationException
      */
-    final public static function login(string $url, string $authHeader): string
+    public static function login(string $url, string $authHeader): string
     {
 
         if (isset(self::$token)) {
             return self::$token;
+        }
+
+        if (Andreani::$debug) {
+            Console::log('Login to ' . $url, 'light_green');
         }
 
         $client = new HttpRequest($url, [
@@ -97,7 +108,17 @@ class Connection
 
         $response = $client->get('/login');
 
-        return $response->getData()->token;
+        $token = $response->getData()->token;
+
+        if (empty($token)) {
+            throw new InvalidConfigurationException('Invalid credentials');
+        }
+
+        if (Andreani::$debug) {
+            Console::log('Token: ' . $token, 'white');
+        }
+
+        return $token;
     }
 
     /**

@@ -13,7 +13,7 @@ class AndreaniTests extends TestCase
     public function __construct()
     {
         parent::__construct();
-        $this->andreani = new Andreani('usuario_test', 'DI$iKqMClEtM', 'sandbox');
+        $this->andreani = new Andreani('usuario_test', 'DI$iKqMClEtM', 'sandbox', true);
     }
 
 }

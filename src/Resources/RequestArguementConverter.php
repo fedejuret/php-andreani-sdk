@@ -2,8 +2,6 @@
 
 namespace Fedejuret\Andreani\Resources;
 
-use ReflectionClass;
-
 final class RequestArguementConverter implements ArgumentConverter
 {
 
@@ -20,6 +18,7 @@ final class RequestArguementConverter implements ArgumentConverter
 
     /**
      * @param APIRequest $service
+     * @return array|null
      */
     public function getArgumentChain(APIRequest $service): ?array
     {
