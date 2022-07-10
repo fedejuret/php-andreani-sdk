@@ -44,11 +44,8 @@ class QuoteShipping implements APIRequest
     }
 
     /**
-     * @param QuoteShipping $service
-     * 
-     * @throws \Fedejuret\Andreani\Exceptions\InvalidConfigurationException
-     * 
      * @return array
+     * @throws InvalidConfigurationException
      */
     public function getClassArgumentChain(): array
     {
